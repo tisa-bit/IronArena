@@ -29,10 +29,6 @@ const LoginForm = () => {
       setErrorMessage(null);
 
       const res = await loginStep1(data);
-      if (!res.success) {
-        setErrorMessage(res.message); // show only frontend-friendly message
-        return;
-      }
 
       // 1️⃣ 2FA flow
       if (res.tempToken) {
@@ -42,17 +38,26 @@ const LoginForm = () => {
       }
 
       // 2️⃣ Extract token and user info
-      const token =
-        typeof res.token === "string" ? res.token : res.token?.accessToken;
-      const userData = res.userData || res.user;
+      // const token =
+      //   typeof res.token === "string" ? res.token : res.token?.accessToken;
+      // const userData = res.userData || res.user;
+      // console.log();
 
+      const token = res.accessToken?.accessToken;
+      const userData = res.user;
       if (!token || !userData) {
         setErrorMessage("Login failed. Please try again.");
         return;
       }
 
+      console.log("token and userData", token, userData);
+
       saveUser(userData, token);
 
+      if (res.success === false && res.type === "not_subscribed") {
+        router.replace("/subscription");
+        return;
+      }
       // 3️⃣ Non-subscribed users → subscription page
       if (
         userData.role === "User" &&

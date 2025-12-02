@@ -2,15 +2,11 @@ import prisma from "../../../models/prismaClient.js";
 import PDFDocument from "pdfkit";
 
 const getReportService = async (userId) => {
-  // coclearnsole.log("pdf id", userId);
-
   const Id = parseInt(userId);
   const user = await prisma.user.findUnique({
     where: { id: Id },
     include: { answers: { include: { control: true } } },
   });
-
-  // console.log("pdf user", user);
 
   if (!user) throw new Error("user not found");
   const totalSubmission = user.answers.length;
@@ -47,8 +43,6 @@ const getReportService = async (userId) => {
       submittedAt: answer.createdAt,
     })),
   };
-
-  console.log("pdf ", reportContent);
 
   return reportContent;
 };
@@ -99,8 +93,7 @@ const pdfService = async (data) => {
     doc.moveDown();
   });
 
-  // ✅ DO NOT call doc.end() here
-  return doc; // return the PDFDocument to controller
+  return doc;
 };
 
 export default { getReportService, pdfService };

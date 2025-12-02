@@ -12,6 +12,7 @@ import {
 import { Users, ToggleRight, Grid2X2Icon } from "lucide-react";
 import ProgressChart from "@/components/common/Charts";
 import usePreventBack from "@/hooks/usePreventBack";
+import NotificationBell from "@/components/common/NotificationBell";
 
 type UserType = {
   role: string;
@@ -100,6 +101,10 @@ const AdminDashboard = () => {
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">
         Admin Dashboard
       </h1>
+
+      <div className="flex justify-end items-center">
+        <NotificationBell />
+      </div>
 
       <div className="flex gap-5 flex-wrap">
         <div className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4 flex-1 min-w-[280px] max-w-md">

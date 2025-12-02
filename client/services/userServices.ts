@@ -60,17 +60,19 @@ export const progress = async (id: number) => {
   return res;
 };
 
-
-export const fetchLogs = async (params?: {
+export const fetchUserLogs = async (params?: {
   search?: string;
   startDate?: string;
   endDate?: string;
   page?: number;
   limit?: number;
-  userId?: number;
 }) => {
   const res = await gateway.get("/users/logs/getLogs", { params });
-  console.log("backend resppone", res.data.data);
-
-  return res.data.data;
+  console.log("user specified",res.data);
+  
+  return res.data;
 };
+
+
+
+

@@ -12,7 +12,7 @@ type AnswerFormProps = {
   onNext: () => void;
   isFirst: boolean;
   isLast: boolean;
-  refreshStats: () => void; 
+  refreshStats: () => void;
 };
 
 const AnswerForm = ({

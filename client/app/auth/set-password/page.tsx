@@ -37,15 +37,18 @@ const SetPassword = () => {
       // ✅ Use normal accessToken
       const userData = res?.user;
       const accessToken = res?.tempToken?.accessToken;
+      console.log("setpassword", userData, accessToken);
+
       if (!userData || !accessToken) throw new Error("Failed to set password");
 
-      saveUser(userData, accessToken); // ✅ store normally
+      saveUser(userData); // ✅ store normally
 
       const user = JSON.parse(localStorage.getItem("users") || "{}");
 
       if (user.role === "Admin") {
         router.replace("/dashboard/admin/dashboard");
       } else if (user.role === "User") {
+        router.replace("/");
         if (user.subscriptionStatus === "active") {
           router.replace("/dashboard/users/dashboard");
         } else {

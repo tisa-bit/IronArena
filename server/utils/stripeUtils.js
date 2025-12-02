@@ -1,5 +1,9 @@
 import prisma from "../models/prismaClient.js";
 import stripe from "../models/stripeClient.js";
+import ejs from "ejs";
+import path from "path";
+import transporter from "../config/nodemailer-config.js";
+import { sendAdminNotification } from "../socket/notificationHandler.js";
 
 export const handleCheckOutSuccess = async (session) => {
   const subscription = await stripe.subscriptions.retrieve(
@@ -72,6 +76,14 @@ export const handleCheckOutSuccess = async (session) => {
     to: adminEmails,
     subject: "user subscription successful",
     html,
+  });
+
+  sendAdminNotification("User subscribed successfully", {
+    userId: user.id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    planId: plan.id,
+    planName: plan.name,
   });
   return { status: 200 };
 };

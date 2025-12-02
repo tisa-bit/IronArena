@@ -7,6 +7,7 @@ import QRCode from "qrcode";
 import ejs from "ejs";
 import path from "path";
 import transporter from "../../config/nodemailer-config.js";
+import { sendAdminNotification } from "../../socket/notificationHandler.js";
 
 const findUserById = async (id) => {
   try {
@@ -115,6 +116,12 @@ const emailverificationOtp = async (tempToken, otp) => {
       html,
     });
 
+    sendAdminNotification("New user signed up", {
+      userId: newUser.id,
+      firstname: newUser.firstname,
+      lastname: newUser.lastname,
+      email: newUser.email,
+    });
     const finalToken = await generateToken(user, "otpverification");
     return { token: { accessToken: finalToken }, updatedUser };
   } catch (error) {
@@ -152,7 +159,7 @@ export const loginService = async ({ email, password }) => {
       if (!activeSub) {
         return {
           user,
-          token: tokenObj,
+          accessToken: tokenObj,
           success: false,
           type: "not_subscribed",
           message: "Access denied. Please subscribe to access this content.",
@@ -160,7 +167,7 @@ export const loginService = async ({ email, password }) => {
       }
     }
 
-    return { user, token: tokenObj, success: true };
+    return { user, accessToken: tokenObj };
   } catch (error) {
     console.error("Error in loginService:", error);
 
@@ -322,7 +329,7 @@ const setPasswordService = async (token, newPassword) => {
 
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
     if (!user) throw new Error("User not found");
-    if (user.password) throw new Error("Password already set");
+    // if (user.password) throw new Error("Password already set");
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
@@ -331,7 +338,7 @@ const setPasswordService = async (token, newPassword) => {
       data: { password: hashedPassword, status: "active" },
     });
 
-    const tempToken = await generateToken(updatedUser, "subscribe");
+    const tempToken = await generateToken(updatedUser, "login");
 
     return { user: updatedUser, tempToken };
   } catch (error) {

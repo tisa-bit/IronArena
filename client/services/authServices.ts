@@ -4,10 +4,12 @@ type LoginPayload = { email: string; password: string };
 
 export const loginStep1 = async (data: LoginPayload) => {
   try {
-    console.log("login response",data);
-    
+    console.log("login response", data);
+
     const res = await gateway.post("/auth/login", { data });
-    return res.data; // successful login response
+    console.log("response login",res.data.result);
+    
+    return res.data.result; // successful login response
   } catch (err: any) {
     // If Axios returns a response with error message
     if (err.response) {
@@ -76,8 +78,12 @@ export const changePassword = async (data: {
 };
 
 export const setNewPassword = async (token: string, password: string) => {
+  console.log(token, password);
+
   const res = await gateway.post("/auth/setPassword", { token, password });
-  return res.data;
+  console.log("new password", res.data.data);
+
+  return res.data.data;
 };
 
 export const sendEmailForgetPassword = async (email: string) => {

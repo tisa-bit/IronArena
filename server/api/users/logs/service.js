@@ -1,58 +1,38 @@
 import prisma from "../../../models/prismaClient.js";
 
-const getLogsService = async (req) => {
+const getUserLogsService = async (req) => {
   try {
-    const {
-      search = "",
-      startDate,
-      endDate,
-      userId,
-      page = 1,
-      limit = 5,
-    } = req.query;
+    const { search = "", startDate, endDate, page = 1, limit = 5 } = req.query;
 
-    const requester = req.user;
+    // Logged-in user
+    const userId = req.user.id;
 
-    const actuallimit = parseInt(limit);
-    const skip = (page - 1) * actuallimit;
+    const actualLimit = parseInt(limit);
+    const skip = (page - 1) * actualLimit;
 
-    let whereClause = {};
+    // Build where clause: only the user's logs
+    let whereClause = { userId };
 
-    if (requester.role === "Admin") {
-      if (userId) {
-        whereClause.userId = Number(userId);
-      }
-    } else {
-      whereClause.userId = requester.id;
-    }
-
+    // Date filter
     if (startDate || endDate) {
       whereClause.createdAt = {};
       if (startDate) whereClause.createdAt.gte = new Date(startDate);
-
       if (endDate) whereClause.createdAt.lte = new Date(endDate);
     }
 
+    // Search by action
     if (search) {
-      whereClause.OR = [
-        { action: { contains: search, mode: "insensitive" } },
-        {
-          user: {
-            OR: [
-              { firstname: { contains: search, mode: "insensitive" } },
-              { lastname: { contains: search, mode: "insensitive" } },
-            ],
-          },
-        },
-      ];
+      whereClause.action = { contains: search, mode: "insensitive" };
     }
 
+    // Total logs count
     const totalCount = await prisma.log.count({ where: whereClause });
 
+    // Fetch logs
     const logs = await prisma.log.findMany({
       where: whereClause,
       skip,
-      take: actuallimit,
+      take: actualLimit,
       orderBy: { createdAt: "desc" },
       include: {
         user: {
@@ -61,36 +41,22 @@ const getLogsService = async (req) => {
       },
     });
 
+    // Format logs for the user
     const formattedLogs = logs.map((log) => {
       let parsedDetails = null;
-
       try {
         parsedDetails = log.details ? JSON.parse(log.details) : null;
       } catch {}
 
-      let readableMessage = `${log.user?.firstname || ""} ${
-        log.user?.lastname || ""
-      } ${log.action}`;
-
+      // Always safe: first-person for the user
+      let readableMessage = log.action;
       if (parsedDetails?.controlName) {
-        readableMessage = `${log.user?.firstname || ""} ${
-          log.user?.lastname || ""
-        } updated "${parsedDetails.controlName}" from ${
+        readableMessage = `You updated "${parsedDetails.controlName}" from ${
           parsedDetails?.previous?.status ?? "N/A"
         } → ${parsedDetails?.new?.status ?? "N/A"}`;
       }
 
-      // console.log("Returning Log:", {
-      //   ...log,
-      //   parsedDetails,
-      //   readableMessage,
-      // });
-
-      return {
-        ...log,
-        parsedDetails,
-        readableMessage,
-      };
+      return { ...log, parsedDetails, readableMessage };
     });
 
     return {
@@ -98,14 +64,14 @@ const getLogsService = async (req) => {
       meta: {
         total: totalCount,
         page: Number(page),
-        limit: actuallimit,
-        totalPages: Math.ceil(totalCount / actuallimit),
+        limit: actualLimit,
+        totalPages: Math.ceil(totalCount / actualLimit),
       },
     };
   } catch (err) {
-    console.error("Log Fetch Failed:", err);
-    throw new Error("Failed to fetch logs");
+    console.error("User log fetch failed:", err);
+    throw new Error("Failed to fetch user logs");
   }
 };
 
-export default { getLogsService };
+export default { getUserLogsService };

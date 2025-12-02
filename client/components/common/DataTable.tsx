@@ -4,6 +4,7 @@ import React from "react";
 
 type Column<T> = {
   label: string;
+  field?: string;
   render: (row: T, index: number) => React.ReactNode;
 };
 
@@ -11,30 +12,46 @@ type DataTableProps<T> = {
   data: T[];
   columns: Column<T>[];
   className?: string;
+  sortField?: string;
+  sortOrder?: "asc" | "desc";
+  onSort?: (field: string) => void;
 };
 
 export const DataTable = <T,>({
   data,
   columns,
   className,
+  sortField,
+  sortOrder,
+  onSort,
 }: DataTableProps<T>) => {
   return (
     <div
       className={`overflow-x-auto bg-white rounded-lg shadow-sm ${className || ""}`}
     >
       <table className="min-w-full">
-        <thead className="bg-rose-50 border-b border-rose-100">
+        <thead>
           <tr>
-            {columns.map((col, i) => (
+            {columns.map((col) => (
               <th
-                key={i}
-                className="px-6 py-3 text-left font-medium text-gray-700"
+                key={col.label}
+                className={`cursor-pointer select-none ${col.field ? "" : "pointer-events-none"}`}
+                onClick={() => {
+                  if (!col.field) return;
+                  onSort?.(col.field);
+                }}
               >
-                {col.label}
+                <div className="flex items-center  text-black gap-1">
+                  {col.label}
+                  {sortField === col.field && (
+                    <span>{sortOrder === "asc" ? "↑" : "↓"}</span>
+                  )}
+                </div>
               </th>
             ))}
           </tr>
         </thead>
+
         <tbody>
           {data.length === 0 ? (
             <tr>

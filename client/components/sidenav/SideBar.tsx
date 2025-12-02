@@ -82,7 +82,7 @@ const SideNav = ({ role }: sideNavProps) => {
               </li>
               <li>
                 <Link
-                  href="/dashboard/logs"
+                  href="/dashboard/admin/logs"
                   className={`flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg transition-colors duration-200 ${
                     isActive("/dashboard/users/controls")
                       ? "bg-rose-100 text-rose-600"
@@ -148,7 +148,7 @@ const SideNav = ({ role }: sideNavProps) => {
               </li>
               <li>
                 <Link
-                  href="/dashboard/logs"
+                  href="/dashboard/users/logs"
                   className={`flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg transition-colors duration-200 ${
                     isActive("/dashboard/users/controls")
                       ? "bg-rose-100 text-rose-600"

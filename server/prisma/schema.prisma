@@ -33,6 +33,7 @@ model User {
 
   subscriptions Subscription[]
   logs          Log[]
+  notifications Notification[]
 }
 
 model Category {
@@ -119,6 +120,16 @@ model Invoice {
   invoiceDate     DateTime
 
   subscription Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int //who receive the notification
+  message   String
+  metadata  Json?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum StatusEnum {

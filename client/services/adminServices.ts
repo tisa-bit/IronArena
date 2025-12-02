@@ -108,15 +108,15 @@ export const fetchUsers = async (
   const res = await gateway.get("/admin/usersList/profile/getAllUsers", {
     params: { search, startDate, endDate, page, limit },
   });
-  console.log("userslist", res.data);
+  console.log("userslist", res.data.users);
 
   return res.data;
 };
 
 export const fetchUsersById = async (id: string): Promise<User | null> => {
   const res = await gateway.get(`/admin/usersList/profile/getUsers/${id}`);
-  console.log("single user",res.data.response);
-  
+  console.log("single user", res.data.response);
+
   return res.data.response;
 };
 
@@ -173,4 +173,21 @@ export const downloadPdf = async (data) => {
     console.error("PDF download failed:", error);
     return false;
   }
+};
+
+// For admin logs
+export const fetchAdminLogs = async (params?: {
+  search?: string;
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+  limit?: number;
+  userId?: number;
+}) => {
+ 
+  
+  const res = await gateway.get("/admin/logs/getLogs", { params });
+  console.log(res.data.data);
+  
+  return res.data.data;
 };

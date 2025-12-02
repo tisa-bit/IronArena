@@ -5,14 +5,12 @@ import { useEffect, useState } from "react";
 import SearchFilterBar from "@/components/common/SearchFilterBar";
 import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 import { useDateFilter } from "@/hooks/useDateFilter";
-import { fetchLogs } from "@/services/userServices";
-import { fetchUsers } from "@/services/adminServices";
+import { fetchUserLogs } from "@/services/userServices"; // dedicated API for user logs
 import { CrudPageLayout } from "@/components/common/CrudPageLayout";
-import { Log, User } from "@/types/types";
+import { Log } from "@/types/types";
 
 const LogsPage = () => {
   const [logs, setLogs] = useState<Log[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
   const [meta, setMeta] = useState<Meta>({
     page: 1,
     totalPages: 1,
@@ -35,19 +33,6 @@ const LogsPage = () => {
     toggleDateFilter,
   } = useDateFilter();
 
-  const [userFilter, setUserFilter] = useState("");
-
-  const isAdmin =
-    typeof window !== "undefined" && localStorage.getItem("role") === "Admin";
-
-  useEffect(() => {
-    if (isAdmin) {
-      fetchUsers()
-        .then((res) => setUsers(res?.data || []))
-        .catch(() => setUsers([]));
-    }
-  }, [isAdmin]);
-
   const loadData = async (page = 1) => {
     try {
       setLoading(true);
@@ -60,12 +45,10 @@ const LogsPage = () => {
 
       if (startDate) query.startDate = startDate.toISOString();
       if (endDate) query.endDate = endDate.toISOString();
-      if (isAdmin && userFilter) query.userId = userFilter;
 
-      const res = await fetchLogs(query);
+      const res = await fetchUserLogs(query);
 
       setLogs(Array.isArray(res?.logs) ? res.logs : []);
-
       setMeta({
         ...res.meta,
         page,
@@ -82,7 +65,7 @@ const LogsPage = () => {
 
   useEffect(() => {
     loadData(1);
-  }, [debouncedSearch, startDate, endDate, userFilter]);
+  }, [debouncedSearch, startDate, endDate]);
 
   // ---------------------------
   // Table Column Definitions
@@ -92,23 +75,7 @@ const LogsPage = () => {
       label: "No.",
       render: (_: any, i: number) => i + 1 + (meta.page - 1) * meta.limit,
     },
-    {
-      label: "User",
-      render: (row: any) =>
-        row.user ? (
-          <span className="font-medium text-gray-800">
-            {row.user.firstname} {row.user.lastname}
-          </span>
-        ) : (
-          "-"
-        ),
-    },
-    {
-      label: "Remarks",
-      render: (row: any) =>
-        row.readableMessage ? <span>{row.readableMessage}</span> : "-",
-    },
-
+    { label: "Remarks", render: (row: any) => row.readableMessage || "-" },
     {
       label: "Date",
       render: (row: any) => new Date(row.createdAt).toLocaleString(),
@@ -128,23 +95,6 @@ const LogsPage = () => {
         toggleDateFilter={toggleDateFilter}
         loadData={() => loadData(1)}
       />
-
-      {isAdmin && (
-        <select
-          value={userFilter}
-          onChange={(e) => {
-            setUserFilter(e.target.value);
-          }}
-          className="border p-2 rounded-lg w-64"
-        >
-          <option value="">All Users</option>
-          {users.map((u: any) => (
-            <option key={u.id} value={u.id}>
-              {u.firstname} {u.lastname}
-            </option>
-          ))}
-        </select>
-      )}
 
       <CrudPageLayout
         data={logs}

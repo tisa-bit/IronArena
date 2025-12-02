@@ -2,6 +2,7 @@ import dotenvFlow from "dotenv-flow";
 dotenvFlow.config();
 import express from "express";
 import http from "http";
+
 import cors from "cors";
 import bodyParser from "body-parser";
 import { initializePostgres } from "./config/prisma.js";
@@ -12,10 +13,13 @@ import subscriptionRouter from "./api/stripe/subscription/index.js";
 import subscriptionRouterWebHook from "./api/stripe/subscription/index.js";
 import apiRouter from "./routes/routes.js";
 import { importStripePlans } from "./utils/planMigration.js";
+import { Server } from "socket.io";
+import notificationHandler from "./socket/notificationHandler.js";
 
 const app = express();
 const server = http.createServer(app);
-
+const io = new Server(server, { cors: { origin: "*" } });
+notificationHandler(io);
 app.use(cors());
 app.use(
   "/api/subscription/savedb/webhook",

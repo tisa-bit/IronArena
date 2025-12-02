@@ -21,15 +21,14 @@ const emailVerifyOtp = async (req, res) => {
 };
 
 export const loginController = async (req, res) => {
- 
-  
   try {
     const result = await service.loginService(req.body);
 
+    console.log("login controller", result);
+
     return res.status(200).json({
-      success: true,
       message: "Login successful",
-      ...result,
+      result,
     });
   } catch (error) {
     return res.status(400).json({
@@ -115,7 +114,6 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
- 
   try {
     const result = await service.resetPasswordService(req.body);
     return res
