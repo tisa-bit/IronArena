@@ -15,29 +15,26 @@ const notificationHandler = (io) => {
 };
 
 export const sendAdminNotification = async (message, metadata = {}) => {
-  // Save to DB for all admins
-  const admins = await prisma.user.findMany({
-    where: { role: "Admin" },
-    select: { id: true },
-  });
+  const { firstname, lastname } = metadata;
+  const fullMessage = `${firstname} ${lastname} ${message}`;
 
-  await prisma.notification.create({
-    data: {
-      message: "User subscribed successfully",
-      userId: 1,
-      metadata: {
-        userId: 20,
-        firstname: "John",
+  const admins = await prisma.user.findMany({ where: { role: "Admin" } });
+
+  for (const admin of admins) {
+    await prisma.notification.create({
+      data: {
+        message: fullMessage,
+        metadata,
+        userId: admin.id, // MUST
       },
-    },
-  });
-
-  // Emit real-time notification
-  if (ioInstance) {
-    ioInstance.emit("admin-notification", { message, ...metadata });
-  } else {
-    console.warn("Socket.io not initialized yet!");
+    });
   }
+
+  if (ioInstance)
+    ioInstance.emit("admin-notification", {
+      message: fullMessage,
+      metadata,
+    });
 };
 
 export default notificationHandler;

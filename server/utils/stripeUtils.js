@@ -78,7 +78,7 @@ export const handleCheckOutSuccess = async (session) => {
     html,
   });
 
-  sendAdminNotification("User subscribed successfully", {
+  await sendAdminNotification("User subscribed successfully", {
     userId: user.id,
     firstname: user.firstname,
     lastname: user.lastname,

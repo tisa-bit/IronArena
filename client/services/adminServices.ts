@@ -184,10 +184,19 @@ export const fetchAdminLogs = async (params?: {
   limit?: number;
   userId?: number;
 }) => {
- 
-  
   const res = await gateway.get("/admin/logs/getLogs", { params });
   console.log(res.data.data);
-  
+
   return res.data.data;
+};
+
+export const fetchNotifications = async () => {
+  const res = await gateway.get("/admin/notifications/getNotification");
+  console.log("notifications", res.data.notifications);
+
+  return res.data.notifications;
+};
+
+export const markNotificationsUnread = async () => {
+  console.log("unread");
 };
