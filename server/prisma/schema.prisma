@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  firstname          String
+  lastname           String
+  email              String    @unique
+  password           String?
+  role               String    @default("User")
+  companyname        String?
+  profilePic         String?
+  companyLogo        String?
+  emailotp           Int?
+  otpExpiry          DateTime?
+  status             String    @default("pending")
+  twoFASecret        String    @default("null")
+  istwoFAEnabled     Boolean   @default(false)
+  isDeleted          Boolean   @default(false)
+  stripeCustomerId   String?   @unique
+  planId             Int?
+  isMember           Boolean   @default(false)
+  subscriptionStatus String    @default("none")
+  createdAt          DateTime  @default(now())
+  answers            Answers[]
+  plan               Plan?     @relation(fields: [planId], references: [id])
+
+  subscriptions Subscription[]
+  logs          Log[]
+}
+
+model Category {
+  id           Int       @id @default(autoincrement())
+  categoryname String
+  isDeleted    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  controls     Control[]
+}
+
+model Control {
+  id                 Int      @id @default(autoincrement())
+  controlnumber      Int
+  description        String
+  tips               String?
+  controlmapping     String?
+  mediaLink          String
+  categoryId         Int
+  attachmentRequired Boolean
+  isDeleted          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  category Category  @relation(fields: [categoryId], references: [id])
+  answers  Answers[]
+}
+
+model Answers {
+  id         Int        @id @default(autoincrement())
+  userId     Int
+  controlId  Int
+  status     StatusEnum
+  reason     String?
+  attachment String?
+  createdAt  DateTime   @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  control Control @relation(fields: [controlId], references: [id], onDelete: Cascade)
+}
+
+model Plan {
+  id              Int            @id @default(autoincrement())
+  name            String
+  priceId         String         @unique
+  plandescription String
+  amount          Int
+  currency        String         @default("usd")
+  users           User[]
+  subscriptions   Subscription[]
+}
+
+model Subscription {
+  id                   Int       @id @default(autoincrement())
+  userId               Int
+  planId               Int
+  stripeCustomerId     String
+  stripeSubscriptionId String?
+  checkoutSessionId    String
+  status               String    @default("incomplete")
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+
+  user     User      @relation(fields: [userId], references: [id])
+  plan     Plan      @relation(fields: [planId], references: [id])
+  invoices Invoice[]
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Invoice {
+  id              Int      @id @default(autoincrement())
+  subscriptionId  Int
+  stripeInvoiceId String   @unique
+  invoicePdfUrl   String
+  amountPaid      Int
+  currency        String
+  invoiceDate     DateTime
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
+enum StatusEnum {
+  IMPLEMENTED
+  NOT_IMPLEMENTED
+  NOT_APPLICABLE
+}
+
+enum subscriptionStatus {
+  incomplete
+  active
+  trialing
+  canceled
+  unpaid
+  expired
+}

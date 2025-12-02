@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to <%= baseurl %></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+      }
+      .email-wrapper {
+        max-width: 650px;
+        margin: 0 auto;
+        background-color: #c94b5c;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .container {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 8px;
+        text-align: center;
+      }
+      .logo {
+        margin-bottom: 30px;
+      }
+      .logo-text {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        letter-spacing: 2px;
+      }
+      .logo-subtext {
+        font-size: 10px;
+        color: #666;
+        letter-spacing: 3px;
+        margin-top: 5px;
+      }
+      .greeting {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .illustration {
+        margin: 30px 0;
+      }
+      .illustration img {
+        max-width: 200px;
+        height: auto;
+      }
+      h1 {
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+      .welcome-text {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.8;
+        padding: 0 20px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 14px 60px;
+        color: #fff;
+        background-color: #c94b5c;
+        text-decoration: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 20px 0;
+        transition: background-color 0.3s;
+      }
+      .btn:hover {
+        background-color: #b43d4e;
+      }
+      .signature {
+        text-align: left;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #333;
+      }
+      .team-name {
+        font-weight: 600;
+        margin-top: 5px;
+      }
+      .disclaimer {
+        font-size: 11px;
+        color: #999;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        line-height: 1.6;
+        text-align: left;
+      }
+      .social-links {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      .social-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f5e6e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #c94b5c;
+        font-size: 18px;
+        transition: background-color 0.3s;
+      }
+      .social-icon:hover {
+        background-color: #f0d5d9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <div class="container">
+        <div class="logo">
+          <div class="logo-text">△ TRIAD</div>
+          <div class="logo-subtext">INFOSEC</div>
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 600;
+              color: #333;
+              margin-top: 5px;
+            "
+          >
+            IRON ARENA
+          </div>
+        </div>
+
+        <div class="greeting">Hi <%= payload.email %>! 👋</div>
+
+        <div class="illustration">
+          <svg
+            width="200"
+            height="150"
+            viewBox="0 0 200 150"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="100" cy="80" r="60" fill="#f5e6e8" />
+            <rect x="60" y="70" width="80" height="50" rx="5" fill="#c94b5c" />
+            <circle cx="80" cy="50" r="15" fill="#333" />
+            <circle cx="120" cy="50" r="15" fill="#333" />
+            <path
+              d="M 90 90 Q 100 100 110 90"
+              stroke="#333"
+              fill="none"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+
+        <h1>Welcome to Train Infosec Iron Arena</h1>
+
+        <p class="welcome-text">
+          welcome to Iron Arena! Thanks for joining us—you're all set to explore
+          our exclusive content and personalized features. If you need any help,
+          visit our [help center] or reach out to us at [support e-mail]. Enjoy
+          your time with Iron Arena!
+        </p>
+
+        <a class="btn" href="<%= payload.url %>">Login</a>
+
+        <div class="signature">
+          <div>Thanks,</div>
+          <div class="team-name">Team Triad</div>
+        </div>
+
+        <div class="disclaimer">
+          DISCLAIMER: This email may contain privileged information and is
+          intended solely for the addressee, and any disclosure of this
+          information is strictly prohibited, and may be unlawful. If you have
+          received this mail by mistake, please inform the sender immediately
+          and delete this mail. Any information expressed in this mail does not
+          necessarily reflect the views of OPIDA.
+        </div>
+
+        <div class="social-links">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">in</a>
+          <a href="#" class="social-icon">📷</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

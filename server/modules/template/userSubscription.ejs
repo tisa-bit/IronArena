@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta
+      name="format-detection"
+      content="telephone=no,address=no,email=no,date=no,url=no"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <title>Subscription Alert</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        supported-color-schemes: light dark;
+      }
+
+      .email-container {
+        background: #f3f4fa;
+      }
+
+      .bg-white-def {
+        background: #fff !important;
+      }
+
+      .bg-dark-def {
+        background: #292d32 !important;
+        color: #fff;
+      }
+
+      html,
+      body {
+        margin: 0 auto !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        font-family: "Poppins", sans-serif;
+      }
+
+      table {
+        border-spacing: 0 !important;
+        border-collapse: collapse !important;
+        table-layout: fixed !important;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body width="100%" style="margin: 0; padding: 0; background: #fff">
+    <center style="width: 100%; background: #fff">
+      <div
+        class="email-container"
+        style="max-width: 800px; margin: 0 auto; padding: 15px"
+      >
+        <table
+          role="presentation"
+          width="100%"
+          style="max-width: 590px; margin: 35px auto"
+        >
+          <tr>
+            <td style="text-align: center; padding: 40px 0 20px">
+              <img
+                src="<%= baseurl %>/assets/img/logo.png"
+                width="196"
+                height="39"
+                alt="logo"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              class="bg-white-def"
+              style="padding: 40px; border-top: 5px solid #292d32"
+            >
+              <h4 style="color: #292d32; font-size: 20px; margin-bottom: 15px">
+                Subscription Alert
+                <img src="img/title.png" alt="" style="width: 18px" />
+              </h4>
+
+              <div style="text-align: center; padding-top: 30px">
+                <img src="<%= baseurl %>/assets/img/wlcm.png" alt="" />
+              </div>
+
+              <p style="color: #697f9b; font-size: 14px; margin: 30px 0">
+                User subscription is successful!
+              </p>
+
+              <p style="color: #292d32; font-size: 12px; margin-bottom: 5px">
+                Happy!!!
+              </p>
+
+              <h4
+                style="
+                  font-size: 12px;
+                  margin-top: 0;
+                  color: #292d32;
+                  font-weight: 700;
+                "
+              >
+                Team trialApp
+              </h4>
+
+              <!-- Unsubscribe link -->
+            </td>
+          </tr>
+
+          <tr>
+            <td height="20">&nbsp;</td>
+          </tr>
+        </table>
+
+        <!-- Footer -->
+        <table role="presentation" width="100%">
+          <tr>
+            <td style="text-align: center; padding: 25px 15px">
+              <p>
+                <a href="https://www.linkedin.com/company/spericorn">
+                  <img
+                    src="<%= baseurl %>/assets/img/linkedin.png"
+                    alt="LinkedIn"
+                  />
+                </a>
+                <a href="https://t.me/spericorn">
+                  <img
+                    src="<%= baseurl %>/assets/img/telegram.png"
+                    alt="Telegram"
+                  />
+                </a>
+                <a href="https://twitter.com/spericorn">
+                  <img
+                    src="<%= baseurl %>/assets/img/twitter.png"
+                    alt="Twitter"
+                  />
+                </a>
+              </p>
+              <p style="color: #697f9b; font-size: 12px">
+                Copyright © 2025 Spericorn
+              </p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </center>
+  </body>
+</html>
