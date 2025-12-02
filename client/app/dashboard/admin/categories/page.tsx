@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Folder } from "lucide-react";
 
-import { fetchCategories, deleteCategory } from "@/services/adminServices";
 import { Category, fetchCategoriesResponse } from "@/types/types";
 
 import DeleteModal from "@/components/modal/DeleteModal";
@@ -15,6 +14,7 @@ import { CrudPageLayout } from "@/components/common/CrudPageLayout";
 import ActionButtons from "@/components/common/ActionButtons";
 import Modal from "@/components/common/Modal";
 import CategoryForm from "@/components/form/CategoryForm";
+import { deleteCategory, fetchCategories } from "@/services/categoryService";
 
 const CategoriesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");

@@ -8,10 +8,11 @@ import { CrudPageLayout } from "@/components/common/CrudPageLayout";
 import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 import { useDateFilter } from "@/hooks/useDateFilter";
 import { fetchTransactions } from "@/services/plansService";
-import { fetchUsers } from "@/services/adminServices";
+
 import { Transaction, User } from "@/types/types";
 
 import DropdownFilter from "@/components/common/FilterDropdown";
+import { fetchUsers } from "@/services/userService";
 
 const TransactionPage = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);

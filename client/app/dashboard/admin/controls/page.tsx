@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Box } from "lucide-react";
 
-import { fetchControls, deleteControl } from "@/services/adminServices";
+
 import { Controls, fetchControlResponse } from "@/types/types";
 
 import ControlForm from "@/components/form/ControlForm";
@@ -17,6 +17,7 @@ import { CrudPageLayout } from "@/components/common/CrudPageLayout";
 import ActionButtons from "@/components/common/ActionButtons";
 import Modal from "@/components/common/Modal";
 import "react-datepicker/dist/react-datepicker.css";
+import { deleteControl, fetchControls } from "@/services/controlsService";
 
 const ControlPage = () => {
   const [searchTerm, setSearchTerm] = useState("");

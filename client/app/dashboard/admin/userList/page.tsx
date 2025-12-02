@@ -4,8 +4,8 @@
 import { useState, useEffect } from "react";
 import { fetchUserResponse, User } from "@/types/types";
 import {
-  fetchUsers,
-  deleteUser,
+  
+  
   downloadPdf,
   getPdfResponse,
 } from "@/services/adminServices";
@@ -22,6 +22,7 @@ import { useCrudPage } from "@/hooks/useCrudPage";
 
 import { User as UserIcon } from "lucide-react";
 import UsersForm from "@/components/form/UsersForm";
+import { deleteUser, fetchUsers } from "@/services/userService";
 
 const UserListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");

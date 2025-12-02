@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 
 import ProgressChart from "@/components/common/Charts";
 import usePreventBack from "@/hooks/usePreventBack";
-import { totalControl } from "@/services/adminServices";
+
 import { progress } from "@/services/userServices";
 import StatsSummary from "@/components/common/StatsSummary";
+import { totalControl } from "@/services/controlsService";
 
 const UserDashboard = () => {
   usePreventBack();

@@ -3,7 +3,8 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Category } from "@/types/types";
-import { fetchCategoryById } from "@/services/adminServices";
+import { fetchCategoryById } from "@/services/categoryService";
+
 
 const CategoryDetailPage = () => {
   const router = useRouter();

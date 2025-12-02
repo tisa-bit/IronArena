@@ -3,13 +3,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { addCategories, editCategories } from "@/services/adminServices";
+
 import { CategoryFormProps } from "@/types/types";
 import { categorySchema, CategoryFormData } from "@/schemas/categorySchema";
 
 import FormButton from "../common/FormButton";
 import FormInput from "../common/FormInput";
-
+import { addCategories, editCategories } from "@/services/categoryService";
 
 const CategoryForm = ({ category, onClose, onSuccess }: CategoryFormProps) => {
   const {

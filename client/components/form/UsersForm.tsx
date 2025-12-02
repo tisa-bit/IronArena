@@ -3,8 +3,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { addUsers } from "../../services/adminServices";
-import { editUsers } from "../../services/userServices";
+
+
 import { UserFormProps, User } from "../../types/types";
 import {
   AdminInviteUserFormData,
@@ -14,6 +14,9 @@ import {
 
 import FormButton from "../common/FormButton";
 import FormInput from "../common/FormInput";
+
+
+import { addUsers, editUsers } from "@/services/userService";
 
 const UsersForm = ({ onClose, user, onUserUpdate }: UserFormProps) => {
   const {

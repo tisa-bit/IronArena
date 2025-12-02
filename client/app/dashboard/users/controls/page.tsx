@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { fetchCategories, fetchControls } from "@/services/userServices";
 import { progress } from "@/services/userServices";
 import { Category, Controls } from "@/types/types";
 
@@ -13,6 +12,8 @@ import FormButton from "@/components/common/FormButton";
 import StatsSummary from "@/components/common/StatsSummary";
 import AnswerForm from "@/components/form/AnswerForm";
 import { Eye } from "lucide-react";
+import { fetchCategories } from "@/services/categoryService";
+import { fetchControlsUsers } from "@/services/controlsService";
 
 const ControlPage = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const ControlPage = () => {
     const loadAll = async () => {
       setLoading(true);
       try {
-        const data = await fetchControls(selectedCategory);
+        const data = await fetchControlsUsers(selectedCategory);
         const categoryRes = await fetchCategories();
         setControls(data);
         setCategories(categoryRes.categories);

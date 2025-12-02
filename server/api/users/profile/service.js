@@ -12,6 +12,8 @@ const getUserProfile = async (userId) => {
 };
 
 const updateUserProfile = async (userId, profileData, file) => {
+  console.log("userId,profileData,file",userId,profileData,file);
+  
   try {
     const updatedUser = await prisma.user.update({
       where: { id: userId },

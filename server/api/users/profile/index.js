@@ -1,5 +1,5 @@
 import express from "express";
-import auth, {  } from "../../../middleware/auth.js";
+import auth, { isUser } from "../../../middleware/auth.js";
 import validator from "./validator.js";
 import controller from "./controller.js";
 import { upload } from "../../../middleware/multerconfig.js";
@@ -71,6 +71,7 @@ router.get("/getProfile/:id", auth, controller.getProfile);
 router.put(
   "/updateUser",
   auth,
+  isUser,
   upload.single("profilePic"),
   validator.updateProfile,
   controller.updateProfileDetails

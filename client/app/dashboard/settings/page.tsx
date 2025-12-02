@@ -13,9 +13,10 @@ import { User } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { UserIcon } from "lucide-react";
 import UsersForm from "../../../components/form/UsersForm";
-import { fetchUsersById } from "@/services/userServices";
+
 import Card from "@/components/common/Cards";
 import { useAuthStorage } from "@/hooks/useAuthStorage";
+import { fetchUsersByIdUser } from "@/services/userService";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -89,7 +90,7 @@ export default function SettingsPage() {
 
   const handleProfileClick = async () => {
     if (!user) return;
-    const data = await fetchUsersById(user.id.toString());
+    const data = await fetchUsersByIdUser(user.id.toString());
     setProfileUser(data);
     setShowProfileModal(true);
   };

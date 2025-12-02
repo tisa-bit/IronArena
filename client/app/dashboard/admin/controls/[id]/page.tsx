@@ -1,7 +1,8 @@
 "use client";
 
 import Card from "@/components/common/Cards";
-import { fetchControlsById } from "@/services/adminServices";
+import { fetchControlsById } from "@/services/controlsService";
+
 import { Controls } from "@/types/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

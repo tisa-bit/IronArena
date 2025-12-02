@@ -1,7 +1,9 @@
 "use client";
 
 import Card from "@/components/common/Cards";
-import { fetchUsersById } from "@/services/adminServices";
+import { fetchUsersById } from "@/services/userService";
+
+
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

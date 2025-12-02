@@ -2,11 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import {
-  addControls,
-  editControls,
-  fetchCategories,
-} from "@/services/adminServices";
+
 import { ControlFormProps, Category, Controls } from "@/types/types";
 
 import FormCheckbox from "../common/FormCheckbox";
@@ -15,6 +11,8 @@ import FormSelect from "../common/FormSelect";
 import { ControlFormData, controlSchema } from "@/schemas/controlSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../common/FormInput";
+import { fetchCategories } from "@/services/categoryService";
+import { addControls, editControls } from "@/services/controlsService";
 
 const ControlForm = ({ control, onClose, onSuccess }: ControlFormProps) => {
   const [categories, setCategories] = useState<Category[]>([]);

@@ -13,6 +13,8 @@ const getProfile = async (req, res, next) => {
 };
 
 const updateProfileDetails = async (req, res, next) => {
+  console.log("file",req.file);
+  
   try {
     const updatedUser = await service.updateUserProfile(
       req.user.id,

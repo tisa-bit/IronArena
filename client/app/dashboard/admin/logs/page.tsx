@@ -6,9 +6,10 @@ import SearchFilterBar from "@/components/common/SearchFilterBar";
 import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 import { useDateFilter } from "@/hooks/useDateFilter";
 
-import { fetchAdminLogs, fetchUsers } from "@/services/adminServices";
+import { fetchAdminLogs } from "@/services/adminServices";
 import { CrudPageLayout } from "@/components/common/CrudPageLayout";
 import { Log, User } from "@/types/types";
+import { fetchUsers } from "@/services/userService";
 
 const AdminLogsPage = () => {
   const [logs, setLogs] = useState<Log[]>([]);

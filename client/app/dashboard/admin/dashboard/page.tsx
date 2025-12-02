@@ -1,18 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  totalCategories,
-  totalControl,
-  totalUsers,
-  fetchUsers,
-  progress,
-} from "@/services/adminServices";
+import { progress } from "@/services/adminServices";
 
 import { Users, ToggleRight, Grid2X2Icon } from "lucide-react";
 import ProgressChart from "@/components/common/Charts";
 import usePreventBack from "@/hooks/usePreventBack";
 import NotificationBell from "@/components/common/NotificationBell";
+import { totalCategories } from "@/services/categoryService";
+import { totalControl } from "@/services/controlsService";
+import { fetchUsers, totalUsers } from "@/services/userService";
 
 type UserType = {
   role: string;

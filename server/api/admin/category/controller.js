@@ -67,5 +67,5 @@ export default {
   getAllCategories,
   editCategory,
   deleteCategory,
-  getCategoryCount
+  getCategoryCount,
 };
