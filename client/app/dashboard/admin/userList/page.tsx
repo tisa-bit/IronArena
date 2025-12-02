@@ -3,7 +3,12 @@
 
 import { useState, useEffect } from "react";
 import { fetchUserResponse, User } from "@/types/types";
-import { fetchUsers, deleteUser } from "@/services/adminServices";
+import {
+  fetchUsers,
+  deleteUser,
+  downloadPdf,
+  getPdfResponse,
+} from "@/services/adminServices";
 
 import SearchFilterBar from "@/components/common/SearchFilterBar";
 import { CrudPageLayout } from "@/components/common/CrudPageLayout";
@@ -88,6 +93,14 @@ const UserListPage = () => {
     }
   };
 
+  const handleDownload = async (id: number) => {
+    const res = await getPdfResponse(id);
+    console.log("pdf", res);
+
+    const pdfGeneration = await downloadPdf(res);
+
+    console.log("pdf generation", pdfGeneration);
+  };
   const columns = [
     {
       label: "No.",
@@ -110,6 +123,14 @@ const UserListPage = () => {
           viewPath={`/dashboard/admin/userList/${row.id}`}
           onEdit={() => openEditModal(row)}
           onDelete={() => openDeleteModal(row)}
+          extraActions={
+            <button
+              onClick={() => handleDownload(row.id)}
+              className="p-2 rounded bg-green-600 text-white hover:bg-green-700"
+            >
+              Download
+            </button>
+          }
         />
       ),
     },

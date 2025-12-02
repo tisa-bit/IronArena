@@ -108,21 +108,6 @@ const submitControls = async (body, file, userId) => {
   }
 };
 
-const getAnswers = async () => {
-  const stats = await prisma.answers.groupBy({
-    by: ["status"],
-    _count: {
-      status: true,
-    },
-  });
-
-  const result = stats.reduce((acc, item) => {
-    acc[item.status] = item._count.status;
-    return acc;
-  }, {});
-  return result;
-};
-
 const getControlIdService = async (id, userId) => {
   try {
     const controlId = Number(id);
@@ -180,5 +165,4 @@ export default {
   getAllControlService,
   submitControls,
   getControlIdService,
-  getAnswers,
 };

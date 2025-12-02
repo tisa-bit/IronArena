@@ -131,17 +131,47 @@ export const getUserIdService = async (id) => {
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        firstname: true,
-        lastname: true,
-        email: true,
-        companyname: true,
-        istwoFAEnabled: true,
+      include: {
+        answers: { include: { control: true } }, // include answers + controls
       },
     });
+    const totalSubmission = user.answers.length;
+    const implementedCount = user.answers.filter(
+      (a) => a.status === "IMPLEMENTED"
+    ).length;
+    const not_implementedCount = user.answers.filter(
+      (a) => a.status === "NOT_IMPLEMENTED"
+    ).length;
+    const not_applicableCount = user.answers.filter(
+      (a) => a.status === "NOT_APPLICABLE"
+    ).length;
+
+    const reportContent = {
+      user: {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        companyname: user.companyname,
+        subscriptionStatus: user.subscriptionStatus,
+      },
+      summary: {
+        totalSubmission,
+        implementedCount,
+        not_implementedCount,
+        not_applicableCount,
+      },
+      answers: user.answers.map((answer) => ({
+        controlNumber: answer.control.controlnumber,
+        controlDescription: answer.control.description,
+        status: answer.status,
+        reason: answer.reason || "",
+        submittedAt: answer.createdAt,
+      })),
+    };
 
     if (!user) return { error: "User does not exist" };
-    return user;
+    return { user, reportContent };
   } catch (error) {
     console.error("Error fetching user by ID:", error);
     return { error: "Database error occurred" };

@@ -5,8 +5,14 @@ type ActionButtonProps = {
   viewPath?: string;
   onEdit?: () => void;
   onDelete?: () => void;
+  extraActions?: React.ReactNode;
 };
-const ActionButtons = ({ viewPath, onEdit, onDelete }: ActionButtonProps) => {
+const ActionButtons = ({
+  viewPath,
+  onEdit,
+  onDelete,
+  extraActions,
+}: ActionButtonProps) => {
   const router = useRouter();
   return (
     <div className="flex gap-2">
@@ -25,6 +31,7 @@ const ActionButtons = ({ viewPath, onEdit, onDelete }: ActionButtonProps) => {
           <Trash2 className="w-5 h-5 text-rose-300 hover:text-red-700" />
         </button>
       )}
+      {extraActions && <>{extraActions}</>}
     </div>
   );
 };

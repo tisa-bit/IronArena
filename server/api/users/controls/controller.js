@@ -23,10 +23,7 @@ const submitControl = async (req, res) => {
   }
 };
 
-const getAnswersController = async (req, res) => {
-  const data = await service.getAnswers();
-  return res.json(data);
-};
+
 const getControlId = async (req, res) => {
   try {
     const response = await service.getControlIdService(
@@ -45,5 +42,5 @@ export default {
   getControls,
   submitControl,
   getControlId,
-  getAnswersController,
+  
 };

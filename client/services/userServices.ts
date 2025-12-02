@@ -60,14 +60,6 @@ export const progress = async (id: number) => {
   return res;
 };
 
-export const answersCount = async () => {
-  console.log("hello");
-
-  const res = await gateway.get(`/users/controls/getAnswers`);
-  console.log(res);
-
-  return res;
-};
 
 export const fetchLogs = async (params?: {
   search?: string;

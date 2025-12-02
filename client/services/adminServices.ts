@@ -115,6 +115,8 @@ export const fetchUsers = async (
 
 export const fetchUsersById = async (id: string): Promise<User | null> => {
   const res = await gateway.get(`/admin/usersList/profile/getUsers/${id}`);
+  console.log("single user",res.data.response);
+  
   return res.data.response;
 };
 
@@ -143,4 +145,32 @@ export const totalUsers = async () => {
 export const progress = async (id: number) => {
   const res = await gateway.get(`/admin/usersList/progress/${id}`);
   return res;
+};
+
+export const getPdfResponse = async (id: number) => {
+  const res = await gateway.get(`/admin/report/getReport/${id}`);
+  console.log("from backend", res.data.report);
+  return res.data.report;
+};
+
+export const downloadPdf = async (data) => {
+  try {
+    const res = await gateway.post(`/admin/report/generatePDf`, data, {
+      responseType: "blob",
+    });
+
+    const blob = new Blob([res.data], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${data.user.firstname}_report.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    return true;
+  } catch (error) {
+    console.error("PDF download failed:", error);
+    return false;
+  }
 };

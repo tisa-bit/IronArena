@@ -103,5 +103,4 @@ router.post(
  */
 router.get("/getControl/:id", auth, controller.getControlId);
 
-router.get("/getAnswers",auth,controller.getAnswersController)
 export default router;
