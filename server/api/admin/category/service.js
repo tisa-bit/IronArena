@@ -21,7 +21,6 @@ const addcategoryService = async (data) => {
       return { message: "New category added", category };
     }
   } catch (error) {
-    console.error(error);
     return { error: "Failed to add category" };
   }
 };
@@ -39,7 +38,6 @@ const getCategoryIdService = async (id) => {
 
     return { data: category };
   } catch (error) {
-    console.error(error);
     return { error: "Database error occurred" };
   }
 };
@@ -85,8 +83,6 @@ const getAllCategoriesService = async (data) => {
     });
 
     if (categories.length === 0) throw new Error("No category exists");
-
-    // console.log(categories);
     return {
       categories,
       meta: {
@@ -98,7 +94,6 @@ const getAllCategoriesService = async (data) => {
       message: "Categories fetched successfully",
     };
   } catch (error) {
-    console.error(error);
     return { error: "Failed to fetch categories" };
   }
 };
@@ -112,7 +107,6 @@ const editCategoryService = async (Id, data) => {
     });
     return { message: "Category updated successfully", category };
   } catch (error) {
-    console.error(error);
     return { error: "Failed to update category" };
   }
 };
@@ -126,7 +120,6 @@ const deleteCategoryService = async (Id) => {
     });
     return { message: "Category deleted successfully", category };
   } catch (error) {
-    console.error(error);
     return { error: "Failed to delete category" };
   }
 };
@@ -136,7 +129,6 @@ export const getCategoryCount = async () => {
     const count = await prisma.category.count({ where: { isDeleted: false } });
     return count;
   } catch (error) {
-    console.error(error);
     return { error: "Failed to get category count" };
   }
 };

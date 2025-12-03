@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 type DropdownFilterProps<T> = {
   items: T[];
-  valueKey: keyof T; // field to use as value
-  labelKey: keyof T; // field to show as label
+  valueKey: keyof T; 
+  labelKey: keyof T; 
   selectedValue: string | number;
   onChange: (value: string | number) => void;
   placeholder?: string;

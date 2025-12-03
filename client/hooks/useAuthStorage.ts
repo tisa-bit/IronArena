@@ -9,7 +9,6 @@ export const useAuthStorage = () => {
     }
     return null;
   });
-
   const saveUser = (userData: User, token?: string) => {
     if (typeof window !== "undefined") {
       if (token) localStorage.setItem("accessToken", token);
@@ -17,14 +16,12 @@ export const useAuthStorage = () => {
       setUser(userData);
     }
   };
-
   const saveTempToken = (tempToken: string, otpFor: "2fa" | "email") => {
     if (typeof window !== "undefined") {
       localStorage.setItem("tempToken", tempToken);
       localStorage.setItem("otpfor", otpFor);
     }
   };
-
   const clearAll = () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("accessToken");
@@ -34,19 +31,15 @@ export const useAuthStorage = () => {
       setUser(null);
     }
   };
-
   const getAccessToken = () => {
     if (typeof window !== "undefined")
       return localStorage.getItem("accessToken");
     return null;
   };
-
   const getTempToken = () => {
     if (typeof window !== "undefined") return localStorage.getItem("tempToken");
     return null;
   };
-
-  // NEW: helper to get both user and token
   const getUser = () => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem("users");
@@ -57,7 +50,6 @@ export const useAuthStorage = () => {
     }
     return null;
   };
-
   return {
     user,
     saveUser,
@@ -65,6 +57,6 @@ export const useAuthStorage = () => {
     clearAll,
     getAccessToken,
     getTempToken,
-    getUser, // export it
+    getUser, 
   };
 };

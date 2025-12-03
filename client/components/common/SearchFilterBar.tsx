@@ -61,7 +61,7 @@ const SearchFilterBar = ({
           setStartDate={setStartDate}
           setEndDate={setEndDate}
           onApply={() => {
-            loadData(1); // reload first page with updated dates
+            loadData(1); 
           }}
         />
       )}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { progress } from "@/services/userServices";
+import { progress } from "@/services/clientService";
 import { Category, Controls } from "@/types/types";
 
 import Card from "@/components/common/Cards";
@@ -17,26 +17,18 @@ import { fetchControlsUsers } from "@/services/controlsService";
 
 const ControlPage = () => {
   const router = useRouter();
-
-  // --- Data States ---
   const [controls, setControls] = useState<Controls[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | "">("");
   const [loading, setLoading] = useState(true);
-
-  // --- Stats ---
   const [stats, setStats] = useState({
     implemented: 0,
     notImplemented: 0,
     notApplicable: 0,
     total: 0,
   });
-
-  // --- Play Mode States ---
   const [playMode, setPlayMode] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // --- Fetch Controls & Categories ---
   useEffect(() => {
     const loadAll = async () => {
       setLoading(true);
@@ -52,21 +44,16 @@ const ControlPage = () => {
     };
     loadAll();
   }, [selectedCategory]);
-
-  // --- Fetch Stats using progress API ---
   const fetchStats = async () => {
     try {
       const storedUser = localStorage.getItem("users");
       if (!storedUser) return;
-
       const userData = JSON.parse(storedUser);
       const progressRes = await progress(userData.id);
-
       const implemented = progressRes.data.implemented || 0;
       const notImplemented = progressRes.data.not_implemented || 0;
       const notApplicable = progressRes.data.not_applicable || 0;
       const total = implemented + notImplemented + notApplicable;
-
       setStats({ implemented, notImplemented, notApplicable, total });
     } catch (err) {
       console.error("Failed to fetch stats:", err);
@@ -81,7 +68,6 @@ const ControlPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-start gap-6">
-      {/* --- Stats Summary --- */}
       <StatsSummary
         counts={{
           total: stats.total,
@@ -90,8 +76,6 @@ const ControlPage = () => {
           notApplicable: stats.notApplicable,
         }}
       />
-
-      {/* --- Filter Section --- */}
       <Card title="Filter">
         <label className="text-sm font-semibold text-black rounded-sm">
           Category
@@ -111,15 +95,11 @@ const ControlPage = () => {
           ))}
         </select>
       </Card>
-
-      {/* --- Play Mode Button --- */}
       {!playMode && controls.length > 0 && (
         <FormButton onClick={() => setPlayMode(true)} className="mt-4">
           Play Controls
         </FormButton>
       )}
-
-      {/* --- Play Modal --- */}
       <Modal isOpen={playMode} onClose={() => setPlayMode(false)}>
         {controls[currentIndex] ? (
           <>
@@ -140,7 +120,7 @@ const ControlPage = () => {
               onNext={() => setCurrentIndex((prev) => prev + 1)}
               isFirst={currentIndex === 0}
               isLast={currentIndex === controls.length - 1}
-              refreshStats={fetchStats} // refresh stats after each submission
+              refreshStats={fetchStats} 
             />
           </>
         ) : (
@@ -148,7 +128,7 @@ const ControlPage = () => {
         )}
       </Modal>
 
-      {/* --- List View Using Cards --- */}
+     
       <div className="flex flex-col gap-4 mt-6 max-h-[70vh] overflow-y-auto pr-2">
         {controls.map((control) => {
           const status = control.answers?.[0]?.status || "Not Submitted";

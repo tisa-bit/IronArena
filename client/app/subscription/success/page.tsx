@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,23 +8,23 @@ const SubscriptionSuccessPage = () => {
   useEffect(() => {
     const userString = localStorage.getItem("users");
     if (!userString) {
-      router.push("/");
+      router.replace("/");
       return;
     }
 
     const user = JSON.parse(userString);
 
     if (user.role === "Admin") {
-      router.push("/dashboard/admin/dashboard");
+      router.replace("/dashboard/admin/dashboard");
     } else if (user.role === "User") {
-      router.push("/dashboard/users/dashboard");
+      router.replace("/dashboard/users/dashboard");
     } else {
-      router.push("/");
+      router.replace("/");
     }
   }, [router]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen bg-rose-500 text-2xl text-white">
       <p>Thank you! Your subscription is now active.</p>
     </div>
   );

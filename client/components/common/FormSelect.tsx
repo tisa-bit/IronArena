@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
 import { FieldError } from "react-hook-form";
 
 type Option = { value: number | string; label: string };

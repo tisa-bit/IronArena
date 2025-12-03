@@ -1,4 +1,3 @@
-// components/common/Modal.tsx
 "use client";
 
 import { ReactNode } from "react";
@@ -7,7 +6,7 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
-  className?: string; // optional styling
+  className?: string; 
 };
 
 const Modal = ({ isOpen, onClose, children, className }: ModalProps) => {
@@ -20,7 +19,7 @@ const Modal = ({ isOpen, onClose, children, className }: ModalProps) => {
     >
       <div
         className={`relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 ${className || ""}`}
-        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+        onClick={(e) => e.stopPropagation()} 
       >
         {children}
       </div>

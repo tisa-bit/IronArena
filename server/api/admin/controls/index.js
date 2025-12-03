@@ -132,7 +132,7 @@ router.get("/getAllControls", auth, isAdmin, controller.getAllControls);
  *       500:
  *         description: Internal server error
  */
-router.get("/getControl/:id", auth, isAdmin, controller.getControlId);
+router.get("/getControl/:id", auth, controller.getControlId);
 
 /**
  * @swagger

@@ -6,7 +6,6 @@ export const addCategories = async (data: Category): Promise<Category[]> => {
     const res = await gateway.post("/admin/category/addCategory", data);
     return res.data;
   } catch (err) {
-    console.error("Error adding category:", err);
     return [];
   }
 };
@@ -31,7 +30,6 @@ export const fetchCategoryById = async (
     const res = await gateway.get(`/admin/category/getCategory/${id}`);
     return res.data.category;
   } catch (err) {
-    console.error("Error fetching category:", err);
     return null;
   }
 };

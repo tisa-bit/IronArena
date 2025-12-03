@@ -4,7 +4,7 @@ import { useState } from "react";
 import FormButton from "@/components/common/FormButton";
 import FormInput from "@/components/common/FormInput";
 import { Controls } from "@/types/types";
-import { submitAnswers } from "@/services/userServices";
+import { submitAnswers } from "@/services/clientService";
 
 type AnswerFormProps = {
   control: Controls;
@@ -50,11 +50,10 @@ const AnswerForm = ({
       setReason("");
       setFile(null);
 
-      refreshStats(); // refresh stats in parent
-      onNext(); // move to next control
+      refreshStats(); 
+      onNext(); 
     } catch (err) {
-      console.error(err);
-      setError("Submission failed. Try again.");
+      setError("Submission failed. Try again.",err);
     }
   };
 

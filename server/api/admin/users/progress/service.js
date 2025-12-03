@@ -30,12 +30,10 @@ const getUserProgressForAdmin = async (userId) => {
           break;
       }
     });
-
     const total = implemented + notImplemented + notApplicable;
-
     return { implemented, notImplemented, notApplicable, total };
   } catch (err) {
-    console.error("Error fetching user progress:", err);
+
     throw new Error(err.message || "Failed to fetch user progress");
   }
 };

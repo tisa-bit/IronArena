@@ -1,4 +1,3 @@
-// components/common/CrudPageLayout.tsx
 "use client";
 
 import { ReactNode } from "react";

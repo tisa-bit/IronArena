@@ -58,8 +58,6 @@ const ControlPage = () => {
     },
     deleteData: deleteControl,
   });
-
-  // Load first page when filters or search change
   useEffect(() => {
     loadData(1);
     setMeta((prev) => ({ ...prev, page: 1 }));

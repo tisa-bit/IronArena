@@ -39,7 +39,6 @@ const submitControls = async (body, file, userId) => {
     const { controlId, status, reason } = body;
     const numericControlId = Number(controlId);
 
-    // fetch control meta for logging
     const control = await prisma.control.findUnique({
       where: { id: numericControlId },
       select: {

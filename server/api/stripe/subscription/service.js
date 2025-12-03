@@ -100,8 +100,6 @@ export const createCheckoutService = async (user, planId) => {
 };
 
 const getTransactionsService = async (data) => {
-  console.log("userId", data.userId);
-
   try {
     const {
       search = "",
@@ -117,7 +115,6 @@ const getTransactionsService = async (data) => {
 
     const whereClause = {};
 
-    // Date filtering
     if (startDate || endDate) {
       whereClause.invoiceDate = {};
       if (startDate) {
@@ -132,7 +129,6 @@ const getTransactionsService = async (data) => {
       }
     }
 
-    // User filter
     if (userId) {
       const numericUserId = Number(userId);
       whereClause.subscription = {
@@ -141,7 +137,6 @@ const getTransactionsService = async (data) => {
       };
     }
 
-    // Search filter: user name OR plan name
     if (search) {
       whereClause.OR = [
         {
@@ -200,7 +195,6 @@ const getTransactionsService = async (data) => {
       message: "Transactions fetched successfully",
     };
   } catch (error) {
-    console.error("Error fetching transactions:", error);
     return {
       transactions: [],
       meta: { total: 0, page: 1, limit: 5, totalPages: 1 },
@@ -220,7 +214,6 @@ const handleCheckoutSessionCompleted = async (req) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("Webhook signature verification failed:", err.message);
     return { status: 400, message: "Invalid signature" };
   }
 

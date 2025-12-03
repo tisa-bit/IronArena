@@ -53,7 +53,6 @@ const addUsersService = async (data) => {
         "Password setting link sent successfully. Please check your email.",
     };
   } catch (error) {
-    // console.error("Error adding user:", error);
     throw new Error(
       error.message || "Database error occurred while adding user"
     );
@@ -61,8 +60,6 @@ const addUsersService = async (data) => {
 };
 
 const getAllUsersService = async (data, currentUser) => {
-  // console.log("data", data);
-
   try {
     const { search, startDate, endDate, page = 1, limit = 5 } = data;
     const actualLimit = parseInt(limit);
@@ -107,8 +104,6 @@ const getAllUsersService = async (data, currentUser) => {
       },
     });
 
-    // console.log("users", users);
-
     return {
       users,
       meta: {
@@ -119,7 +114,6 @@ const getAllUsersService = async (data, currentUser) => {
       },
     };
   } catch (error) {
-    console.error("Error fetching users:", error);
     throw new Error("Database error occurred while fetching users");
   }
 };
@@ -173,7 +167,6 @@ export const getUserIdService = async (id) => {
     if (!user) return { error: "User does not exist" };
     return { user, reportContent };
   } catch (error) {
-    console.error("Error fetching user by ID:", error);
     return { error: "Database error occurred" };
   }
 };
@@ -188,7 +181,6 @@ const deleteUsersService = async (Id) => {
     });
     return user;
   } catch (error) {
-    console.error("Error deleting user:", error);
     throw new Error("Database error occurred while deleting user");
   }
 };
@@ -197,7 +189,6 @@ export const getUsersCount = async () => {
   try {
     return await prisma.user.count({ where: { isDeleted: false } });
   } catch (error) {
-    console.error("Error counting users:", error);
     throw new Error("Database error occurred while counting users");
   }
 };

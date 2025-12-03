@@ -19,8 +19,6 @@ const SignUpForm = () => {
   } = useForm<UserFormData>({ resolver: zodResolver(userSchema) });
 
   const onSubmit = async (data: UserFormData) => {
-    console.log("hello");
-
     const formData = new FormData();
     formData.append("firstname", data.firstname);
     formData.append("lastname", data.lastname);
@@ -34,7 +32,6 @@ const SignUpForm = () => {
     }
 
     const newUser = await SignUp(formData);
-    console.log("NEW USER", newUser);
     const token = newUser.data.tempToken;
     const user = newUser.data.newUser;
     if (token) {
@@ -55,8 +52,6 @@ const SignUpForm = () => {
         <h1 className="text-2xl font-semibold text-center mb-8 text-gray-700">
           Signup
         </h1>
-
-        {/* IMPORTANT: use handleSubmit here */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormInput
             label="First name"

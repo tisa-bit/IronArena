@@ -34,14 +34,10 @@ const AdminLogsPage = () => {
     toggleDateFilter,
   } = useDateFilter();
   const [userFilter, setUserFilter] = useState("");
-
-  // Sorting
   const [sortField, setSortField] = useState<"createdAt" | "action" | "user">(
     "createdAt"
   );
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-
-  // Fetch all users for filter
   useEffect(() => {
     fetchUsers()
       .then((res) => setUsers(res?.users || []))
@@ -73,7 +69,6 @@ const AdminLogsPage = () => {
         limit,
       });
     } catch (err) {
-      console.error("Error loading logs:", err);
       setLogs([]);
       setMeta({ page: 1, totalPages: 1, limit, total: 0 });
     } finally {
@@ -119,7 +114,6 @@ const AdminLogsPage = () => {
 
   return (
     <div className="p-6 flex flex-col gap-5">
-      {/* Search & Date filter */}
       <SearchFilterBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -132,7 +126,6 @@ const AdminLogsPage = () => {
         loadData={() => loadData(1)}
       />
 
-      {/* User filter */}
       <select
         value={userFilter}
         onChange={(e) => setUserFilter(e.target.value)}
@@ -146,7 +139,6 @@ const AdminLogsPage = () => {
         ))}
       </select>
 
-      {/* Logs Table */}
       <CrudPageLayout
         data={logs}
         columns={columns}

@@ -25,15 +25,11 @@ const addControlsService = async (data) => {
 
     return control;
   } catch (error) {
-    console.error("Error adding control:", error);
     throw new Error(error.message || "Database error occurred");
   }
 };
 
 const getAllControlService = async (data) => {
-  // console.log("frontend request", data);
-  // console.log("dates from frontend", data.startDate, data.endDate);
-
   try {
     const { search, startDate, endDate, page = 1, limit = 5 } = data;
     const actualLimit = Number(limit);
@@ -94,9 +90,6 @@ const getAllControlService = async (data) => {
         },
       },
     });
-
-    // console.log("response of filtering ", controls);
-
     return {
       controls,
       meta: {
@@ -107,7 +100,6 @@ const getAllControlService = async (data) => {
       },
     };
   } catch (error) {
-    console.error("Error fetching controls:", error);
     throw new Error("Database error occurred while fetching controls");
   }
 };
@@ -122,6 +114,7 @@ export const getControlIdService = async (id) => {
     const control = await prisma.control.findUnique({
       where: { id: controlId },
       select: {
+        id: true,
         description: true,
         tips: true,
         controlmapping: true,
@@ -140,7 +133,6 @@ export const getControlIdService = async (id) => {
 
     return { data: control };
   } catch (error) {
-    console.error("Error fetching control by ID:", error);
     return { error: "Database error occurred" };
   }
 };
@@ -169,7 +161,6 @@ const editControlService = async (id, data) => {
 
     return updatedControl;
   } catch (error) {
-    console.error("Error updating control:", error);
     throw new Error(
       error.message || "Database error occurred while updating control"
     );
@@ -191,7 +182,6 @@ const deleteControlService = async (Id) => {
     });
     return control;
   } catch (error) {
-    console.error("Error deleting control:", error);
     throw new Error(
       error.message || "Database error occurred while deleting control"
     );
@@ -204,7 +194,6 @@ export const getControlCount = async () => {
       where: { isDeleted: false },
     });
   } catch (error) {
-    console.error("Error counting controls:", error);
     throw new Error("Database error occurred while counting controls");
   }
 };

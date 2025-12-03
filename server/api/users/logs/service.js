@@ -69,7 +69,7 @@ const getUserLogsService = async (req) => {
       },
     };
   } catch (err) {
-    console.error("User log fetch failed:", err);
+ 
     throw new Error("Failed to fetch user logs");
   }
 };

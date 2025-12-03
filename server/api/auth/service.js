@@ -76,8 +76,6 @@ export const signupService = async (data) => {
 };
 
 const emailverificationOtp = async (tempToken, otp) => {
-  // console.log("otp", otp);
-
   try {
     const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
 
@@ -116,11 +114,10 @@ const emailverificationOtp = async (tempToken, otp) => {
       html,
     });
 
-    sendAdminNotification("New user signed up", {
-      userId: newUser.id,
-      firstname: newUser.firstname,
-      lastname: newUser.lastname,
-      email: newUser.email,
+    await sendAdminNotification("User registration successfully", {
+      userId: updatedUser.id,
+      firstname: updatedUser.firstname,
+      lastname: updatedUser.lastname,
     });
     const finalToken = await generateToken(user, "otpverification");
     return { token: { accessToken: finalToken }, updatedUser };
@@ -183,7 +180,6 @@ export const loginService = async ({ email, password }) => {
   }
 };
 
-// Token generator
 export const generateToken = async (user, type) => {
   try {
     const tokenExpiry = "30d";

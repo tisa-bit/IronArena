@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { Bell } from "lucide-react";
-import { fetchNotifications } from "@/services/adminServices";
+import {
+  fetchNotifications,
+  markNotificationsUnread,
+} from "@/services/adminServices";
 
 type Notification = {
   id: number;
@@ -34,15 +37,16 @@ const NotificationBell = () => {
   }, []);
 
   const handleNotifications = async () => {
+    setOpen((prev) => !prev);
+
     if (!open) {
-      // Fetch notifications when opening
       const res = await fetchNotifications();
       setNotifications(res);
 
-      // Optionally, mark all notifications as unread = false
-      await markNotificationsUnread();
+      const ids = res.map((r) => r.id);
+
+      markNotificationsUnread(ids)
     }
-    setOpen((prev) => !prev);
   };
 
   return (
@@ -57,17 +61,22 @@ const NotificationBell = () => {
           {notifications.length}
         </span>
       )}
-
-      {open && notifications.length > 0 && (
-        <div className="absolute right-0 mt-2 w-80 bg-white border shadow-md rounded-md max-h-96 overflow-y-auto">
-          {notifications.map((n) => (
-            <div
-              key={n.id}
-              className={`p-2 border-b ${!n.isRead ? "bg-gray-100" : ""}`}
-            >
-              {n.message}
+      {open && (
+        <div className="absolute right-0 mt-2 w-80 bg-white border shadow-md rounded-md max-h-96 overflow-y-auto text-black">
+          {notifications.length === 0 ? (
+            <div className="p-4 text-center text-gray-500">
+              No notifications
             </div>
-          ))}
+          ) : (
+            notifications.map((n) => (
+              <div
+                key={n.id}
+                className={`p-2 border-b ${!n.isRead ? "bg-gray-100" : ""}`}
+              >
+                {n.message}
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>

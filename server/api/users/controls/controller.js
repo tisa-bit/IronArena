@@ -12,6 +12,7 @@ const getControls = async (req, res) => {
 };
 
 const submitControl = async (req, res) => {
+  
   try {
     const data = await service.submitControls(req.body, req.file, req.user.id);
     return res.status(200).json({

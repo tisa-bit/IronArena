@@ -1,7 +1,7 @@
 "use client";
 import Card from "@/components/common/Cards";
 import { fetchControlsById } from "@/services/controlsService";
-import { submitAnswers } from "@/services/userServices";
+import { submitAnswers } from "@/services/clientService";
 import { Controls } from "@/types/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -50,7 +50,7 @@ const ControlsDetails = () => {
       return setError("Explain the reason");
 
     const formData = new FormData();
-    formData.append("controlId", control!.id.toString());
+    formData.append("controlId", control.id);
     formData.append("status", status!);
     if (file) formData.append("attachment", file);
     if (reason) formData.append("reason", reason);
@@ -63,7 +63,6 @@ const ControlsDetails = () => {
       setFile(null);
       router.back();
     } catch (err) {
-      console.error(err);
       setError("Failed to submit. Please try again.");
     }
   };

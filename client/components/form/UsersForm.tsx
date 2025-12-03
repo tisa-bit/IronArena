@@ -1,21 +1,15 @@
 "use client";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-
-
 import { UserFormProps, User } from "../../types/types";
 import {
   AdminInviteUserFormData,
   adminInviteUserSchema,
   UserFormData,
 } from "../../schemas/userSchema";
-
 import FormButton from "../common/FormButton";
 import FormInput from "../common/FormInput";
-
-
 import { addUsers, editUsers } from "@/services/userService";
 
 const UsersForm = ({ onClose, user, onUserUpdate }: UserFormProps) => {
@@ -38,10 +32,7 @@ const UsersForm = ({ onClose, user, onUserUpdate }: UserFormProps) => {
       });
     }
   }, [user, reset]);
-
   const onSubmit = async (data: UserFormData) => {
-    console.log("adding userr");
-
     const formData = new FormData();
     formData.append("firstname", data.firstname);
     formData.append("lastname", data.lastname);
@@ -51,9 +42,7 @@ const UsersForm = ({ onClose, user, onUserUpdate }: UserFormProps) => {
     if (data.profilePic && data.profilePic[0]) {
       formData.append("profilePic", data.profilePic[0]);
     }
-
     let updatedUser: User;
-
     if (user) {
       updatedUser = await editUsers(user.id, formData);
       alert("updated successfully");

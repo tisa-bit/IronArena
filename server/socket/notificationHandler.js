@@ -6,10 +6,10 @@ const notificationHandler = (io) => {
   ioInstance = io;
 
   io.on("connection", (socket) => {
-    console.log("✅ User connected:", socket.id);
+    console.log(" User connected:", socket.id);
 
     socket.on("disconnect", () => {
-      console.log("❌ User disconnected:", socket.id);
+      console.log("User disconnected:", socket.id);
     });
   });
 };
@@ -25,7 +25,7 @@ export const sendAdminNotification = async (message, metadata = {}) => {
       data: {
         message: fullMessage,
         metadata,
-        userId: admin.id, // MUST
+        userId: admin.id,
       },
     });
   }

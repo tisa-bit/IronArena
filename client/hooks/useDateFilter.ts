@@ -9,7 +9,7 @@ export const useDateFilter = () => {
 
   const applyDateFilter = () => {
     setShowDateFilter(false);
-    return { startDate, endDate }; // return current dates
+    return { startDate, endDate }; 
   };
 
   return {

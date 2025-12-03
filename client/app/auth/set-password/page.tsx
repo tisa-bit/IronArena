@@ -14,37 +14,26 @@ const SetPassword = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-
   const { saveUser } = useAuthStorage();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SetPasswordFormInputs>();
-
   if (!token)
     return (
       <p className="text-center mt-4 text-red-600">
         Invalid or expired reset link
       </p>
     );
-
   const onSubmit: SubmitHandler<SetPasswordFormInputs> = async (data) => {
     try {
       const res = await setNewPassword(token, data.password);
-
-      // ✅ Use normal accessToken
       const userData = res?.user;
       const accessToken = res?.tempToken?.accessToken;
-      console.log("setpassword", userData, accessToken);
-
       if (!userData || !accessToken) throw new Error("Failed to set password");
-
-      saveUser(userData); // ✅ store normally
-
+      saveUser(userData, accessToken);
       const user = JSON.parse(localStorage.getItem("users") || "{}");
-
       if (user.role === "Admin") {
         router.replace("/dashboard/admin/dashboard");
       } else if (user.role === "User") {

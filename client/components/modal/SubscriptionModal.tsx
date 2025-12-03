@@ -25,8 +25,8 @@ const SubscriptionModal = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {plans.map((plan) => (
           <Card key={plan.id} title={plan.name}>
-            <p className="text-gray-600">{plan.plandescription}</p>
-            <p className="mt-2 font-bold">${plan.amount / 100}/year</p>
+            <p className="text-black">{plan.plandescription}</p>
+            <p className="mt-2 font-bold text-black">${plan.amount / 100}/year</p>
             <button
               onClick={() => onSelectPlan(plan)}
               className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"

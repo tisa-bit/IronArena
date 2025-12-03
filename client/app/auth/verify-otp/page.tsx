@@ -51,8 +51,6 @@ const VerifyOtpPage = () => {
 
       saveUser(user, finalToken);
       localStorage.removeItem("tempToken");
-
-      // Redirect after successful verification
       if (user.role === "Admin") {
         router.replace("/dashboard/admin/dashboard");
       } else if (user.role === "User") {
@@ -63,7 +61,6 @@ const VerifyOtpPage = () => {
         }
       }
     } catch (error: any) {
-      console.error("OTP verification error:", error);
       alert(error?.message || "OTP verification failed");
     }
   };

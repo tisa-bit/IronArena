@@ -5,13 +5,12 @@ import Card from "@/components/common/Cards";
 import Modal from "@/components/common/Modal";
 import { createsubscription, getPlans } from "@/services/plansService";
 import { Plan } from "@/types/types";
-import { useRouter } from "next/navigation";
 import { useAuthStorage } from "@/hooks/useAuthStorage";
 
 const SubscriptionPage = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const router = useRouter();
+  
   const { getAccessToken } = useAuthStorage();
 
   useEffect(() => {
@@ -36,10 +35,8 @@ const SubscriptionPage = () => {
       if (!accessToken) throw new Error("Session expired. Please login again.");
 
       const res = await createsubscription(selectedPlan.id, accessToken);
-      console.log("subscription frontend", res.data.data);
-
       if (res?.data?.data?.url) {
-        window.location.href = res.data.data.url; // redirect to Stripe
+        window.location.href = res.data.data.url; 
       }
     } catch (err: any) {
       console.error("Subscription failed:", err);
@@ -73,9 +70,9 @@ const SubscriptionPage = () => {
       </div>
 
       <Modal isOpen={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
-        <h2 className="text-xl font-semibold mb-4">{selectedPlan?.name}</h2>
-        <p className="mb-4">{selectedPlan?.plandescription}</p>
-        <p className="mb-4 font-semibold">
+        <h2 className="text-xl font-semibold mb-4 text-black">{selectedPlan?.name}</h2>
+        <p className="mb-4 text-black">Description: {selectedPlan?.plandescription}</p>
+        <p className="mb-4 font-semibold text-black">
           Price: {selectedPlan?.amount / 100}{" "}
           {selectedPlan?.currency.toUpperCase()}
         </p>

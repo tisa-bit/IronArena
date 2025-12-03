@@ -1,6 +1,5 @@
 import service from "./service.js";
 const addUsers = async (req, res) => {
-  // console.log("controller user", req.body);
   try {
     const usersData = await service.addUsersService(req.body);
     return res.status(200).json({ message: "user addedd", usersData });
@@ -17,7 +16,7 @@ const getAllUsers = async (req, res) => {
       ...response,
     });
   } catch (error) {
-    console.log(error);
+  
     return res.status(500).json({ message: "fetching failed" });
   }
 };

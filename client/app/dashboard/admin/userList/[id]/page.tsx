@@ -19,7 +19,7 @@ const UserDetails = () => {
 
     const loadUser = async () => {
       setLoading(true);
-      const res = await fetchUsersById(id); // returns { user, reportContent }
+      const res = await fetchUsersById(id); 
       setUserReport(res);
       setLoading(false);
     };

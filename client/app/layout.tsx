@@ -1,5 +1,5 @@
 import "./globals.css";
-import Footer from "@/components/common/Footer";
+
 
 export const metadata = {
   title: "IronArena",

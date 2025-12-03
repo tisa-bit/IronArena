@@ -1,7 +1,4 @@
-
 "use client";
-
-
 import { Controls } from "@/types/types";
 import Modal from "@/components/common/Modal";
 import FormButton from "@/components/common/FormButton";
@@ -26,7 +23,6 @@ type Props = {
   onSubmit: () => void;
   onSkip: () => void;
 };
-
 const ControlPlayModal = ({
   isOpen,
   onClose,
@@ -47,7 +43,6 @@ const ControlPlayModal = ({
   onSkip,
 }: Props) => {
   if (!control) return null;
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <p className="text-sm text-gray-600 mb-2">

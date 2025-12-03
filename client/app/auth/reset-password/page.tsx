@@ -2,7 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { resetPassword, setNewPassword } from "@/services/authServices";
+import { resetPassword } from "@/services/authServices";
 import FormInput from "@/components/common/FormInput";
 import FormButton from "@/components/common/FormButton";
 import { useAuthStorage } from "@/hooks/useAuthStorage";
@@ -17,20 +17,14 @@ const ResetPassword = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-
-  // console.log("token", token);
-
   const { saveUser } = useAuthStorage();
   const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<ResetPasswordInputs>();
-
-  // token validation
   if (!token) {
     return (
       <p className="text-center mt-4 text-red-600">
@@ -38,31 +32,20 @@ const ResetPassword = () => {
       </p>
     );
   }
-
   const onSubmit: SubmitHandler<ResetPasswordInputs> = async (data) => {
     if (data.password !== data.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-
     setLoading(true);
-
     try {
-      // API call
       const res = await resetPassword(token, data.password);
-
-      console.log("res", res.result);
-
       if (!res?.result?.updatedUser || !res?.result?.tempToken?.accessToken) {
         alert("Password reset failed. Please try again.");
         return;
       }
-
-      // Save user + JWT normally
       saveUser(res.result.updatedUser, res.result.tempToken.accessToken);
-
       const user = JSON.parse(localStorage.getItem("users") || "{}");
-
       if (user.role === "Admin") {
         router.replace("/dashboard/admin/dashboard");
       } else if (user.role === "User") {

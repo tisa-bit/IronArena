@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import SearchFilterBar from "@/components/common/SearchFilterBar";
 import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 import { useDateFilter } from "@/hooks/useDateFilter";
-import { fetchUserLogs } from "@/services/userServices"; // dedicated API for user logs
+import { fetchUserLogs } from "@/services/clientService"; // dedicated API for user logs
 import { CrudPageLayout } from "@/components/common/CrudPageLayout";
 import { Log } from "@/types/types";
 
@@ -67,9 +67,6 @@ const LogsPage = () => {
     loadData(1);
   }, [debouncedSearch, startDate, endDate]);
 
-  // ---------------------------
-  // Table Column Definitions
-  // ---------------------------
   const columns = [
     {
       label: "No.",

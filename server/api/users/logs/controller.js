@@ -11,7 +11,7 @@ const getLogsController = async (req, res) => {
       meta: data.meta,
     });
   } catch (error) {
-    console.error("Error fetching logs:", error);
+
     return res.status(500).json({ message: "Fetching logs failed" });
   }
 };

@@ -6,7 +6,6 @@ import Image from "next/image";
 import {
   setupTwoFA,
   verifySetupTwoFA,
-  changePassword,
 } from "@/services/authServices";
 
 import { User } from "@/types/types";
@@ -17,6 +16,9 @@ import UsersForm from "../../../components/form/UsersForm";
 import Card from "@/components/common/Cards";
 import { useAuthStorage } from "@/hooks/useAuthStorage";
 import { fetchUsersByIdUser } from "@/services/userService";
+import ChangePasswordForm from "@/components/form/ChangePasswordForm";
+import FormInput from "@/components/common/FormInput";
+import FormButton from "@/components/common/FormButton";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -27,17 +29,9 @@ export default function SettingsPage() {
   const [status, setStatus] = useState<"idle" | "setup" | "enabled">("idle");
   const [error, setError] = useState("");
   const [user, setUser] = useState<User | null>(null);
-
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [cpError, setCpError] = useState("");
-  const [cpSuccess, setCpSuccess] = useState("");
-
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileUser, setProfileUser] = useState<User | null>(null);
   const [editProfile, setEditProfile] = useState<User | null>(null);
-
   const [editModal, setEditModal] = useState(false);
 
   useEffect(() => {
@@ -51,9 +45,6 @@ export default function SettingsPage() {
     };
     loadUser();
   }, []);
-
-  console.log(editProfile);
-
   const handleLogout = () => {
     clearAll();
     router.replace("/");
@@ -71,21 +62,6 @@ export default function SettingsPage() {
     await verifySetupTwoFA(otp);
     setStatus("enabled");
     alert("2FA enabled!");
-  };
-
-  const handleChangePassword = async () => {
-    setCpError("");
-    setCpSuccess("");
-    if (newPassword !== confirmPassword) {
-      setCpError("Passwords do not match.");
-      return;
-    }
-    await changePassword({ currentPassword, newPassword });
-    setCpSuccess("Password updated!");
-    router.replace("/");
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
   };
 
   const handleProfileClick = async () => {
@@ -121,7 +97,7 @@ export default function SettingsPage() {
 
       {showProfileModal && profileUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-40 ">
-          <div className="relative w-screen h-max">
+          <div className="relative w-96 h-max">
             <Card
               title="Control Details"
               onClose={() => setShowProfileModal(false)}
@@ -194,19 +170,16 @@ export default function SettingsPage() {
               {qrCode && (
                 <Image src={qrCode} alt="2FA QR" width={150} height={150} />
               )}
-              <input
+              <FormInput
+                name="otp"
+                placeholder="Enter OTP Code"
                 type="text"
-                placeholder="Enter OTP"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
               />
-              <button
-                onClick={handleVerifySetup}
-                className="px-4 py-2 bg-rose-500 text-white rounded-md"
-              >
+              <FormButton onClick={handleVerifySetup}>
                 Verify & Enable
-              </button>
+              </FormButton>
             </>
           )}
 
@@ -225,35 +198,7 @@ export default function SettingsPage() {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Change Password
           </h2>
-          <input
-            type="password"
-            placeholder="Current Password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className="px-3 py-2 border text-black rounded-md focus:outline-none"
-          />
-          <input
-            type="password"
-            placeholder="New Password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="px-3 py-2 border text-black rounded-md focus:outline-none"
-          />
-          <input
-            type="password"
-            placeholder="Confirm New Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="px-3 py-2 border text-black rounded-md focus:outline-none"
-          />
-          <button
-            onClick={handleChangePassword}
-            className="px-4 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600"
-          >
-            Update Password
-          </button>
-          {cpError && <p className="text-red-500">{cpError}</p>}
-          {cpSuccess && <p className="text-green-500">{cpSuccess}</p>}
+          <ChangePasswordForm />
         </div>
       </div>
     </div>

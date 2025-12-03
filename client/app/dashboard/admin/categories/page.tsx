@@ -25,7 +25,6 @@ const CategoriesPage = () => {
   const [deletingCategory, setDeletingCategory] = useState<Category | null>(
     null
   );
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const {
@@ -57,8 +56,6 @@ const CategoriesPage = () => {
     },
     deleteData: deleteCategory,
   });
-
-  // Load first page on mount or when search/date changes
   useEffect(() => {
     loadData(1);
     setMeta((prev) => ({ ...prev, page: 1 }));

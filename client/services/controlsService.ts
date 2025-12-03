@@ -16,7 +16,6 @@ export const fetchControls = async (
   const res = await gateway.get("/admin/controls/getAllControls", {
     params: { search, startDate: start, endDate: end, page, limit },
   });
-  console.log(res.data);
   return res.data;
 };
 
@@ -44,13 +43,16 @@ export const fetchControlsUsers = async (
     });
     return res.data.controls;
   } catch (err) {
-    console.error("Error fetching categories:", err);
     return [];
   }
 };
-
+export const fetchControlsByIdUsers = async (
+  id: string
+): Promise<Controls | null> => {
+  const res = await gateway.get(`/users/controls/getControl/${id}`);
+  return res.data.control;
+};
 export const totalControl = async () => {
   const res = await gateway.get("/admin/controls/getControlCount");
-
   return res;
 };

@@ -11,4 +11,12 @@ const getNotification = async (req, res) => {
   }
 };
 
-export default { getNotification };
+const markAsRead = async (req, res) => {
+  try {
+    const data = await service.readService(req.body.ids);
+    return res.json({ message: "marked as read", data });
+  } catch {
+    return res.json({ messsage: "failed" });
+  }
+};
+export default { getNotification, markAsRead };

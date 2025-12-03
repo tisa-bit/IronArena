@@ -71,7 +71,6 @@ router.get("/getProfile/:id", auth, controller.getProfile);
 router.put(
   "/updateUser",
   auth,
-  isUser,
   upload.single("profilePic"),
   validator.updateProfile,
   controller.updateProfileDetails

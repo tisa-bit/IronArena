@@ -1,7 +1,6 @@
 import service from "./service.js";
 
 export const signupController = async (req, res) => {
-  // console.log("signup controller",req.body)
   try {
     const data = await service.signupService(req.body);
     return res.json({ message: "User created successfully", data });
@@ -23,9 +22,7 @@ const emailVerifyOtp = async (req, res) => {
 export const loginController = async (req, res) => {
   try {
     const result = await service.loginService(req.body);
-
-    console.log("login controller", result);
-
+    console.log("service return", result);
     return res.status(200).json({
       message: "Login successful",
       result,
@@ -38,15 +35,6 @@ export const loginController = async (req, res) => {
     });
   }
 };
-
-// const authenticatorLoginController = async (req, res) => {
-//   try {
-//     const response = await service.authenticatorLoginService(req.body);
-//     return res.status(200).json({ message: "success", ...response });
-//   } catch (error) {
-//     return res.status(400).json({ message: error.message });
-//   }
-// };
 
 const authenticatorLoginVerifyOtp = async (req, res) => {
   try {
@@ -92,8 +80,6 @@ const setPassword = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  // console.log("change password", req.body);
-
   try {
     const result = await service.updatePassword(req.user.id, req.body);
     return res.status(200).json({ message: "updated password", result });
@@ -127,7 +113,6 @@ export default {
   signupController,
   emailVerifyOtp,
   loginController,
-
   authenticatorLoginVerifyOtp,
   setupTwoFA,
   verifyTwoFASetup,

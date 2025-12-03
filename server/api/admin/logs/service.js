@@ -1,8 +1,6 @@
 import prisma from "../../../models/prismaClient.js";
 
 const getLogsService = async (req) => {
-  console.log("logss service");
-
   try {
     const {
       search = "",
@@ -98,7 +96,6 @@ const getLogsService = async (req) => {
       },
     };
   } catch (err) {
-    console.error("Admin Log Fetch Failed:", err);
     throw new Error("Failed to fetch logs");
   }
 };

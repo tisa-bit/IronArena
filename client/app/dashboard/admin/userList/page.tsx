@@ -1,14 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
 import { fetchUserResponse, User } from "@/types/types";
-import {
-  
-  
-  downloadPdf,
-  getPdfResponse,
-} from "@/services/adminServices";
+import { downloadPdf, getPdfResponse } from "@/services/adminServices";
 
 import SearchFilterBar from "@/components/common/SearchFilterBar";
 import { CrudPageLayout } from "@/components/common/CrudPageLayout";
@@ -27,13 +21,9 @@ import { deleteUser, fetchUsers } from "@/services/userService";
 const UserListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebouncedSearch(searchTerm);
-
-  const [editingUser, setEditingUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
-
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const {
     startDate,
     endDate,
@@ -70,12 +60,7 @@ const UserListPage = () => {
   }, [debouncedSearch, startDate, endDate]);
 
   const openAddModal = () => setShowModal(true);
-  const openEditModal = (user: User) => {
-    setEditingUser(user);
-    setShowModal(true);
-  };
   const closeModal = () => {
-    setEditingUser(null);
     setShowModal(false);
   };
 
@@ -96,10 +81,7 @@ const UserListPage = () => {
 
   const handleDownload = async (id: number) => {
     const res = await getPdfResponse(id);
-    console.log("pdf", res);
-
     const pdfGeneration = await downloadPdf(res);
-
     console.log("pdf generation", pdfGeneration);
   };
   const columns = [
@@ -122,7 +104,6 @@ const UserListPage = () => {
       render: (row: User) => (
         <ActionButtons
           viewPath={`/dashboard/admin/userList/${row.id}`}
-          onEdit={() => openEditModal(row)}
           onDelete={() => openDeleteModal(row)}
           extraActions={
             <button
@@ -170,7 +151,6 @@ const UserListPage = () => {
       >
         <Modal isOpen={showModal} onClose={closeModal}>
           <UsersForm
-            user={editingUser}
             onClose={closeModal}
             onSuccess={() => loadData(meta.page)}
           />
